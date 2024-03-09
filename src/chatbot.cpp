@@ -44,7 +44,55 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+ChatBot::ChatBot(const ChatBot &source) {
+  std::cout << "Copying content of instance "<< &source<< " to instance " << this << std::endl;
 
+  _chatLogic = source._chatLogic;
+  _rootNode = source._rootNode;
+  _image = new wxBitmap(*source._image);
+}
+
+
+ChatBot& ChatBot::operator=(const ChatBot &source) {
+  std::cout << "Assigning the content of instance " << &source << " to instance " << this << std::endl;
+  
+  if (this == &source)
+    return *this;
+  delete _image;
+  _image = new wxBitmap(*source._image);
+  
+  _chatLogic = source._chatLogic;
+  _rootNode = source._rootNode;
+  return *this;
+}
+
+ChatBot::ChatBot(ChatBot &&source) {
+  std::cout << "Moving (c'tor) instance " << &source << " to instance " << this << std::endl;
+
+  _image = source._image;
+  _chatLogic = source._chatLogic;
+  _rootNode = source._rootNode;
+  
+  source._image = nullptr;
+
+}
+
+ChatBot& ChatBot::operator=(ChatBot &&source) {
+  std::cout << "Moving (assign) instance " << &source << " to instance " << this << std::endl;
+
+  if (this == &source)
+    return *this;
+
+  delete[] _image;
+
+  _image = source._image;
+  _chatLogic = source._chatLogic;
+  _rootNode = source._rootNode;
+  
+  source._image = nullptr;
+  
+  return *this;
+}
 ////
 //// EOF STUDENT CODE
 
